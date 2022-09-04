@@ -8,9 +8,7 @@ import handleValidationErrors from './utils/handleValidationErrors.js';
 import cors from 'cors';
 
 mongoose
-  .connect(
-    'mongodb+srv://danikman:Qwerty123@cluster0.8ddcbwd.mongodb.net/users?retryWrites=true&w=majority',
-  )
+  .connect(process.env.MOGODB_URI)
   .then(() => console.log('DB OK'))
   .catch((err) => console.log('DB error', err));
 const app = express();
@@ -22,7 +20,7 @@ app.post('/register', registerValidation, handleValidationErrors, register);
 app.get('/user', checkAuth, getMe);
 app.patch('/user/:id', checkAuth, update);
 
-app.listen(7000, (err) => {
+app.listen(process.env.PORT || 7000, (err) => {
   if (err) {
     console.log(err);
   }
